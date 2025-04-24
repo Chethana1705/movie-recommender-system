@@ -2,6 +2,22 @@ import streamlit as st
 import pandas as pd
 import pickle
 import requests
+import os
+import pickle
+import gdown
+
+file_id = "1zeuzApS-5vBB820SAhq3mSl1LSzgtwlu"
+file_name = "similarity.pkl"
+
+# Download the file if it doesn't already exist
+if not os.path.exists(file_name):
+    url = f"https://drive.google.com/uc?id={file_id}"
+    gdown.download(url, file_name, quiet=False)
+
+# Load the model
+with open(file_name, "rb") as f:
+    similarity = pickle.load(f)
+
 def fetch_poster(movie_id):
     response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key=697f43bb823ffb9e42e2e1899d70388a&language=en-US'.format(movie_id))
     data = response.json()
